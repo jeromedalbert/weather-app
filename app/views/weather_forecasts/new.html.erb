@@ -1,0 +1,23 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Get the weather</h1>
+
+  <%= form_with url: weather_forecasts_path, model: @location, method: :post, class: "contents" do |form| %>
+    <%= render partial: 'shared/base_errors', locals: { model: @location } %>
+
+    <div class="flex flex-wrap gap-5 my-5">
+      <div class="my-5">
+        <%= form.label :zip_code %>
+        <%= form.text_field :zip_code, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div class="my-5">
+        <%= form.label :country_code, 'Country' %>
+        <%= form.country_select :country_code, { priority_countries: ['US', 'CA', 'MX'], sort_provided: false }, { class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" } %>
+      </div>
+    </div>
+
+    <div class="inline">
+      <%= form.submit 'Search', class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

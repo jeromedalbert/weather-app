@@ -16,6 +16,7 @@ gem 'thruster', require: false
 gem 'turbo-rails'
 
 gem 'awesome_print'
+gem 'country_select'
 
 group :development, :test do
   gem 'brakeman', require: false
