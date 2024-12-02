@@ -1,0 +1,47 @@
+service: weather_app
+image: <%= ENV['KAMAL_REGISTRY_USERNAME'] %>/weather_app
+
+servers:
+  web:
+    - <%= ENV['SERVER_IP'] %>
+
+# proxy:
+#   ssl: true
+#   host: app.example.com
+
+registry:
+  username: <%= ENV['KAMAL_REGISTRY_USERNAME'] %>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    <%= Dotenv.parse(".kamal/secrets.#{ENV['KAMAL_DESTINATION']}").keys - ['KAMAL_REGISTRY_PASSWORD'] %>
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f --grep-options="--invert-match --extended-regexp" --grep="^[^ ]+ \{"
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+volumes:
+  - "weather_app_storage:/rails/storage"
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64
+
+accessories:
+  db:
+    image: postgres:17
+    host: <%= ENV['SERVER_IP'] %>
+    # Change to 5432 to expose port to the world instead of just local network.
+    port: 127.0.0.1:5432:5432
+    env:
+      secret:
+        - POSTGRES_DB
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
