@@ -1,0 +1,32 @@
+<div id="<%= dom_id location %>">
+  <% if location.forecast %>
+    <% if location.forecast.success %>
+      <p class="my-5">
+        <strong class="font-medium mb-1">Location:</strong>
+        <%= location.forecast.full_location_name %>
+      </p>
+
+      <p class="my-5">
+        <strong class="font-medium mb-1">Current temperature:</strong>
+        <%= location.forecast.current.temperature.round %> °F
+      </p>
+
+      <p class="my-5">
+        <h1 class="font-bold text-xl">Extended forecast</h1>
+        <ul class="my-2">
+          <li>Today: <%= render partial: 'locations/extended_forecast', locals: { forecast: location.forecast.extended[0] } %></li>
+          <li>Tomorrow: <%= render partial: 'locations/extended_forecast', locals: { forecast: location.forecast.extended[1] } %></li>
+          <li>Two days from now: <%= render partial: 'locations/extended_forecast', locals: { forecast: location.forecast.extended[2] } %></li>
+        </ul>
+      </p>
+    <% else %>
+      <p class="my-5">
+        <p><%= location.forecast.error_message %></p>
+      </p>
+    <% end %>
+  <% else %>
+    <p class="my-5">
+      <p>Retrieving forecast...</p>
+    </p>
+  <% end %>
+</div>

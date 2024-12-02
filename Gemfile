@@ -17,6 +17,8 @@ gem 'turbo-rails'
 
 gem 'awesome_print'
 gem 'country_select'
+gem 'easy-rest-client'
+gem 'hashie'
 
 group :development, :test do
   gem 'brakeman', require: false
